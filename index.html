@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Books API Beispiel</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Google Books API Beispiel</h1>
+  <input type="text" id="searchInput" placeholder="Suche nach Büchern">
+  <div id="searchSuggestions">
+    <!-- Hier werden die Suchvorschläge angezeigt -->
+  </div>
+
+  <div id="bookList">
+    <!-- Hier werden die Suchergebnisse angezeigt -->
+  </div>
+
+  <script>
+    function searchBooks() {
+      const searchInput = document.getElementById('searchInput').value;
+      const apiUrl = `http://localhost:3000/search-books?q=${searchInput}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const searchSuggestions = document.getElementById('searchSuggestions');
+          searchSuggestions.innerHTML = '';
+
+          if (data.items) {
+            data.items.slice(0, 5).forEach(item => {
+              const suggestion = item.volumeInfo.title;
+              const li = document.createElement('li');
+              li.innerText = suggestion;
+              searchSuggestions.appendChild(li);
+            });
+          }
+        })
+        .catch(error => console.error('Fehler beim Abrufen der Suchvorschläge:', error));
+    }
+  </script>
+</body>
+</html>
