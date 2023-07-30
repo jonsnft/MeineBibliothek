@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meine Bibliothek</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Meine Bibliothek</h1>
+
+  <div id="bookForm">
+    <h2>Gelesenes Buch hinzufügen</h2>
+    <input type="text" id="title" placeholder="Titel">
+    <input type="text" id="author" placeholder="Autor">
+    <button onclick="addBook()">Hinzufügen</button>
+  </div>
+
+  <div id="bookList">
+    <h2>Meine gelesenen Bücher</h2>
+    <ul id="bookItems">
+      <!-- Hier werden die Bücher dynamisch hinzugefügt -->
+    </ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
