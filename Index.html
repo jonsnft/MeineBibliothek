@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Buchsuche</title>
+</head>
+<body>
+  <form id="bookSearchForm">
+    <input type="text" id="searchInput" placeholder="Suche nach ISBN, Titel oder Autor">
+    <button type="submit">Suchen</button>
+  </form>
+  <div id="searchResults"></div>
+
+  <script>
+    const form = document.getElementById('bookSearchForm');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      searchBooks(searchInput.value);
+    });
+
+    function searchBooks(query) {
+      // Füge hier deinen Google Books API-Schlüssel ein
+      const apiKey = 'AIzaSyDlhMsvc87JOS6Wxq2PFWxaRv2Va0IKNFY';
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => displayResults(data.items))
+        .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
+    }
+
+    function displayResults(books) {
+      searchResults.innerHTML = '';
+
+      if (!books || books.length === 0) {
+        searchResults.innerHTML = 'Keine Bücher gefunden.';
+        return;
+      }
+
+      books.forEach(book => {
+        const title = book.volumeInfo.title;
+        const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unbekannt';
+        const isbn = book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : 'N/A';
+
+        const bookInfo = `
+          <div>
+            <h3>${title}</h3>
+            <p>Autor: ${authors}</p>
+            <p>ISBN: ${isbn}</p>
+          </div>
+        `;
+
+        searchResults.innerHTML += bookInfo;
+      });
+    }
+  </script>
+</body>
+</html>
